@@ -126,4 +126,17 @@
     margin-top: 10%;
     background-color: rgb(255, 62, 62);
     color: white;
+    color: white;
+}
+
+.vaciar-carrito {
+    width: 100px;
+    height: 20px;
+    background-color: gray;
+    border-radius: 5px;
+}
+
+.footer-modal {
+    margin-top: 5px;
+    text-align: center;
 }
