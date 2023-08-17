@@ -59,7 +59,13 @@ const updateCartView = () => {
     const vaciarCarrito = document.createElement('button');
     vaciarCarrito.classList.add('vaciar-carrito');
     vaciarCarrito.innerText = "Vaciar Carrito";
+//--------------------------PRRECIOFINAL-------------------------------------
+let completo;
+ const valorCompleto=document.createElement('div')
+ valorCompleto.classList.add('precio-final');
+ valorCompleto.innerHTML=`TOTAL: $${completo}`
 
+//-----------------------------------------------------
     vaciarCarrito.addEventListener('click', () => {
         const removers = document.querySelectorAll('.modal-body');
         removers.forEach((remover) => {
@@ -73,6 +79,7 @@ const updateCartView = () => {
     modalHeader.appendChild(modalClose)
     modalHeader.appendChild(modalTitle);
     modal.appendChild(modalHeader);
+    footerModal.appendChild(valorCompleto)
 
 
 
@@ -114,6 +121,8 @@ const updateCartView = () => {
             deleteProduct(productId);
         });
     });
+    modal.appendChild(valorCompleto)
+    
     modal.appendChild(footerModal)
     footerModal.appendChild(vaciarCarrito);
 };
@@ -180,3 +189,4 @@ const deleteProduct = (productId) => {
         localStorage.setItem("Lista", JSON.stringify(carrito));
     }
 };
+
