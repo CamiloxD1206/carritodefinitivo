@@ -3,7 +3,7 @@ const productos = [{
         precio: 90000,
         nombre: 'Audífonos',
         descripcion: 'Audífonos gamer',
-        img: "/assets/img/headphones.png",
+        img: "assets/img/headphones.png",
         cantidad: 1
     },
     {
@@ -11,7 +11,7 @@ const productos = [{
         precio: 120000,
         nombre: 'Consola',
         descripcion: 'Consola de videojuegos',
-        img: "/assets/img/Video-Game-Console-2-4G-Double-Wireless-Controller-Game-Stick-4K-10000-Games-64-32GB-Retro.jpg_220x220xz.jpg_.webp",
+        img: "assets/img/Video-Game-Console-2-4G-Double-Wireless-Controller-Game-Stick-4K-10000-Games-64-32GB-Retro.jpg_220x220xz.jpg_.webp",
         cantidad: 1
     },
     {
@@ -19,7 +19,7 @@ const productos = [{
         precio: 30000,
         nombre: 'Gameboy',
         descripcion: 'Consola Gameboy retro',
-        img: "/assets/img/Retro-Portable-Mini-Handheld-Video-Game-Console-8-Bit-3-0-Inch-Color-LCD-Kids-Color.jpg_220x220xz.jpg_.webp",
+        img: "assets/img/Retro-Portable-Mini-Handheld-Video-Game-Console-8-Bit-3-0-Inch-Color-LCD-Kids-Color.jpg_220x220xz.jpg_.webp",
         cantidad: 1
     },
 ];
@@ -27,108 +27,108 @@ const productos = [{
 const contenedor = document.querySelector('#contenido-tienda');
 const carrito = JSON.parse(localStorage.getItem("Lista")) || [];
 
-const overlay = document.querySelector('#overlay');
+const superposicion = document.querySelector('#overlay');
 const modal = document.querySelector('#modal');
-const carritoBoton = document.querySelector('#carritoo');
+const botonCarrito = document.querySelector('#carritoo');
 
-const updateCartView = () => {
+const actualizarVistaCarrito = () => {
     modal.innerHTML = "";
     modal.style.display = "block";
-    overlay.style.display = "block";
+    superposicion.style.display = "block";
 
-    const modalHeader = document.createElement('div');
-    modalHeader.classList.add('header-modal');
+    const encabezadoModal = document.createElement('div');
+    encabezadoModal.classList.add('header-modal');
 
-    const modalClose = document.createElement('button');
-    modalClose.classList.add('Cerrar-modal');
-    modalClose.innerText = "❌";
+    const cerrarModal = document.createElement('button');
+    cerrarModal.classList.add('Cerrar-modal');
+    cerrarModal.innerText = "❌";
 
-    const modalTitle = document.createElement('div');
-    modalTitle.innerHTML = '<h2>Carrito</h2>';
-    modalTitle.classList.add('modal-title');
+    const tituloModal = document.createElement('div');
+    tituloModal.innerHTML = '<h2>Carrito</h2>';
+    tituloModal.classList.add('modal-title');
 
-    modalClose.addEventListener('click', () => {
+    cerrarModal.addEventListener('click', () => {
         modal.style.display = "none";
-        overlay.style.display = "none";
+        superposicion.style.display = "none";
     });
 
-    const footerModal = document.createElement('div');
-    footerModal.classList.add('footer-modal');
+    const pieModal = document.createElement('div');
+    pieModal.classList.add('footer-modal');
 
     const vaciarCarrito = document.createElement('button');
     vaciarCarrito.classList.add('vaciar-carrito');
     vaciarCarrito.innerText = "Vaciar Carrito";
 
     let total = 0;
-    const valorCompleto = document.createElement('div');
-    valorCompleto.classList.add('precio-final');
+    const valorTotal = document.createElement('div');
+    valorTotal.classList.add('precio-final');
 
     vaciarCarrito.addEventListener('click', () => {
-        const removers = document.querySelectorAll('.modal-body');
-        removers.forEach((remover) => {
-            modal.removeChild(remover);
+        const elementosModal = document.querySelectorAll('.modal-body');
+        elementosModal.forEach((elemento) => {
+            modal.removeChild(elemento);
         });
 
         localStorage.clear();
         carrito.length = 0;
         total = 0;
-        valorCompleto.innerHTML = `TOTAL: $${total}`;
+        valorTotal.innerHTML = `TOTAL: $${total}`;
     });
 
-    modalHeader.appendChild(modalClose);
-    modalHeader.appendChild(modalTitle);
-    modal.appendChild(modalHeader);
-    footerModal.appendChild(valorCompleto);
+    encabezadoModal.appendChild(cerrarModal);
+    encabezadoModal.appendChild(tituloModal);
+    modal.appendChild(encabezadoModal);
+    pieModal.appendChild(valorTotal);
 
-    carrito.forEach((element) => {
-        const modalbody = document.createElement('div');
-        modalbody.classList.add('modal-body');
-        modalbody.innerHTML = `
+    carrito.forEach((elemento) => {
+        const cuerpoModal = document.createElement('div');
+        cuerpoModal.classList.add('modal-body');
+        cuerpoModal.innerHTML = `
         <div class='producto'>
-            <img class="product-img" src="${element.img}">
+            <img class="product-img" src="${elemento.img}">
             <div class='product-info'>
-                <h4>${element.nombre}</h4>
+                <h4>${elemento.nombre}</h4>
             </div>
             <div class='cantidad'>
-                <span class="cantidad-btn-decrease" data-id="${element.id}">➖</span>
-                <span class="cantidad-input">${element.cantidad}</span>
-                <span class="cantidad-btn-increase" data-id="${element.id}">➕</span>
+                <span class="cantidad-btn-disminuir" data-id="${elemento.id}">➖</span>
+                <span class="cantidad-input">${elemento.cantidad}</span>
+                <span class="cantidad-btn-incrementar" data-id="${elemento.id}">➕</span>
             </div>
-            <div class="precio">$${element.precio * element.cantidad}</div>
-            <input type="button" value="Borrar" class="borrar-producto-modal" data-id="${element.id}">
+            <div class="precio">$${elemento.precio * elemento.cantidad}</div>
+            <input type="button" value="Borrar" class="borrar-producto-modal" data-id="${elemento.id}">
         </div>`;
 
-        modal.appendChild(modalbody);
+        modal.appendChild(cuerpoModal);
 
-        const cantidadDecreaseBtn = modalbody.querySelector('.cantidad-btn-decrease');
-        cantidadDecreaseBtn.addEventListener('click', () => {
-            const productId = parseInt(cantidadDecreaseBtn.getAttribute('data-id'));
-            decreaseQuantity(productId);
+        const btnDisminuirCantidad = cuerpoModal.querySelector('.cantidad-btn-disminuir');
+        btnDisminuirCantidad.addEventListener('click', () => {
+            const idProducto = parseInt(btnDisminuirCantidad.getAttribute('data-id'));
+            disminuirCantidad(idProducto);
         });
 
-        const cantidadIncreaseBtn = modalbody.querySelector('.cantidad-btn-increase');
-        cantidadIncreaseBtn.addEventListener('click', () => {
-            const productId = parseInt(cantidadIncreaseBtn.getAttribute('data-id'));
-            increaseQuantity(productId);
+        const btnIncrementarCantidad = cuerpoModal.querySelector('.cantidad-btn-incrementar');
+        btnIncrementarCantidad.addEventListener('click', () => {
+            const idProducto = parseInt(btnIncrementarCantidad.getAttribute('data-id'));
+            incrementarCantidad(idProducto);
         });
 
-        const borrarProductoBtn = modalbody.querySelector('.borrar-producto-modal');
-        borrarProductoBtn.addEventListener('click', () => {
-            const productId = parseInt(borrarProductoBtn.getAttribute('data-id'));
-            deleteProduct(productId);
+        const btnBorrarProducto = cuerpoModal.querySelector('.borrar-producto-modal');
+        btnBorrarProducto.addEventListener('click', () => {
+            const idProducto = parseInt(btnBorrarProducto.getAttribute('data-id'));
+            eliminarProducto(idProducto);
         });
 
-        const precioProducto = element.precio * element.cantidad;
+        const precioProducto = elemento.precio * elemento.cantidad;
         total += precioProducto;
     });
 
-    valorCompleto.innerHTML = `TOTAL: $${total}`;
-    modal.appendChild(valorCompleto);
-    modal.appendChild(footerModal);
-    footerModal.appendChild(vaciarCarrito);
+    valorTotal.innerHTML = `TOTAL: $${total}`;
+    modal.appendChild(valorTotal);
+    modal.appendChild(pieModal);
+    pieModal.appendChild(vaciarCarrito);
 };
 
-carritoBoton.addEventListener('click', updateCartView);
+botonCarrito.addEventListener('click', actualizarVistaCarrito);
 
 productos.forEach((producto) => {
     const contenido = document.createElement('div');
@@ -138,56 +138,56 @@ productos.forEach((producto) => {
 <p>${producto.descripcion}</p> `;
     contenedor.appendChild(contenido);
 
-    const botoncompra = document.createElement('button');
-    botoncompra.innerText = 'Añadir al carrito';
-    botoncompra.classList.add('añadir-carrito');
-    contenido.appendChild(botoncompra);
+    const botonCompra = document.createElement('button');
+    botonCompra.innerText = 'Añadir al carrito';
+    botonCompra.classList.add('añadir-carrito');
+    contenido.appendChild(botonCompra);
 
-    botoncompra.addEventListener('click', () => {
-        addToCart(producto);
+    botonCompra.addEventListener('click', () => {
+        agregarAlCarrito(producto);
         localStorage.setItem("Lista", JSON.stringify(carrito));
     });
 });
 
-const addToCart = (product) => {
-    const existingProduct = carrito.find((item) => item.id === product.id);
-    if (existingProduct) {
-        existingProduct.cantidad++;
+const agregarAlCarrito = (producto) => {
+    const productoExistente = carrito.find((item) => item.id === producto.id);
+    if (productoExistente) {
+        productoExistente.cantidad++;
     } else {
         carrito.push({
-            id: product.id,
-            precio: product.precio,
-            nombre: product.nombre,
-            descripcion: product.descripcion,
-            img: product.img,
+            id: producto.id,
+            precio: producto.precio,
+            nombre: producto.nombre,
+            descripcion: producto.descripcion,
+            img: producto.img,
             cantidad: 1
         });
     }
 };
 
-const decreaseQuantity = (productId) => {
-    const product = carrito.find((item) => item.id === productId);
-    if (product && product.cantidad > 1) {
-        product.cantidad--;
-        updateCartView();
+const disminuirCantidad = (idProducto) => {
+    const producto = carrito.find((item) => item.id === idProducto);
+    if (producto && producto.cantidad > 1) {
+        producto.cantidad--;
+        actualizarVistaCarrito();
         localStorage.setItem("Lista", JSON.stringify(carrito));
     }
 };
 
-const increaseQuantity = (productId) => {
-    const product = carrito.find((item) => item.id === productId);
-    if (product) {
-        product.cantidad++;
-        updateCartView();
+const incrementarCantidad = (idProducto) => {
+    const producto = carrito.find((item) => item.id === idProducto);
+    if (producto) {
+        producto.cantidad++;
+        actualizarVistaCarrito();
         localStorage.setItem("Lista", JSON.stringify(carrito));
     }
 };
 
-const deleteProduct = (productId) => {
-    const index = carrito.findIndex((item) => item.id === productId);
-    if (index !== -1) {
-        carrito.splice(index, 1);
-        updateCartView();
+const eliminarProducto = (idProducto) => {
+    const indice = carrito.findIndex((item) => item.id === idProducto);
+    if (indice !== -1) {
+        carrito.splice(indice, 1);
+        actualizarVistaCarrito();
         localStorage.setItem("Lista", JSON.stringify(carrito));
     }
 };
